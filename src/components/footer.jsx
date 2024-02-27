@@ -24,7 +24,8 @@ const Footer = () => {
         <div className="line border-[1px] lg:hidden my-4 border-gray-200 w-full"></div>
         <ul className="flex_daddy flex flex-col items-center lg:items-start h-[20px] mb-4 lg:gap-4">
           <li className="font-semibold flex gap-3 items-center footer_ul">
-            Пользователям <img className="w-6 lg:hidden" src={arrowBottom} alt="" />
+            Пользователям{" "}
+            <img className="w-6 lg:hidden" src={arrowBottom} alt="" />
           </li>
           <li className="hiddens text-[#4D4E59] lg:opacity-100 hidden lg:block">
             <a href>Связаться с нами</a>

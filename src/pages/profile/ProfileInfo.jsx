@@ -26,7 +26,7 @@ const ProfileInfo = ({ status }) => {
         for (let item of res.data) {
           axios
             .patch("http://localhost:3001/users/" + item.id, user_arr)
-            .then((rea) => {
+            .then((res) => {
               if (res.status !== 200 && res.status !== 201) return;
               localStorage.removeItem("user");
               localStorage.setItem("user", JSON.stringify(res.data));
