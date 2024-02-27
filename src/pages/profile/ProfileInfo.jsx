@@ -1,6 +1,6 @@
 import { useForm } from "react-hook-form";
 import { user } from "../../modules/user";
-import "./index.scss"
+import "./index.scss";
 import axios from "axios";
 const ProfileInfo = ({ status }) => {
   const errorStyle = {
@@ -18,15 +18,13 @@ const ProfileInfo = ({ status }) => {
     window.location.assign("/");
   };
 
-  const user_arr = {};
-
-  const onSubmit = async () => {
+  const onSubmit = async (data) => {
     const res = await axios
       .get("http://localhost:3001/users?phone_num=" + +user.phone_num)
       .then((res) => {
         for (let item of res.data) {
           axios
-            .patch("http://localhost:3001/users/" + item.id, user_arr)
+            .patch("http://localhost:3001/users/" + item.id, data)
             .then((res) => {
               if (res.status !== 200 && res.status !== 201) return;
               localStorage.removeItem("user");
