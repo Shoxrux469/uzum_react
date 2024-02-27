@@ -1,0 +1,10 @@
+.btns_style {
+  @apply order-[1px] w-1/3 sm:w-fit sm:py-[5px] py-2 border border-slate-300 text-xs sm:text-base px-[20px] text-[#595b66];
+}
+
+.li_btns {
+  @apply text-[rgba(54,54,64,.35)] cursor-pointer hover:text-slate-500 text-lg;
+}
+.li_btns_active {
+  @apply cursor-pointer text-slate-500 hover:text-[#1f2026] text-lg;
+}

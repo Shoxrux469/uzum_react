@@ -3,11 +3,67 @@ import searcher_icon from "../../assets/searcher_icon.svg";
 import log_in_icon from "../../assets/log_in_icon.svg";
 import heart_icon from "../../assets/heart_icon.svg";
 import bag_icon from "../../assets/bag_icon.svg";
+import axios from "axios";
+import { useQuery } from "react-query";
+import BagModal from "./bagModal";
+import { useEffect, useState } from "react";
+import "../../index.scss";
+import { user } from "../../modules/user";
+import { Link } from "react-router-dom";
+import ModalForm from "../modalForm";
 const MiddleHeader = () => {
-    return (
-        <div className="header my-4 mb-[10px] flex justify-between w-11/12 mx-auto">
+  const [isShown, setIsShown] = useState(false);
+  const [isUser, setIsUser] = useState(false);
+  const [isOpened, setIsOpened] = useState(false);
+  useEffect(() => {
+    if (user.length === 0) {
+      setIsUser(false);
+    } else {
+      setIsUser(true);
+      console.log(user);
+    }
+  }, [isUser]);
+
+  const bagFetch = async () => {
+    const response = await axios.get("http://localhost:3001/bag");
+    // console.log(response.data);
+    return response.data;
+  };
+  const goodsFetch = async () => {
+    const response = await axios.get("http://localhost:3001/goods");
+    // console.log(response.data);
+    return response.data;
+  };
+
+  const openModal = () => {
+    setIsOpened(true);
+  };
+
+  const {
+    data: bagGoods,
+    isLoading: bagLoading,
+    isError: bagError,
+  } = useQuery("bagData", bagFetch);
+  const {
+    data: Goods,
+    isLoading: goodsLoading,
+    isError: goodsError,
+  } = useQuery("goodsData", goodsFetch);
+
+  if (bagLoading || goodsLoading) return <div>Loading...</div>;
+  if (bagError || goodsError) return <div>Error fetching data</div>;
+
+  const res = Goods.filter((goodsItem) =>
+    bagGoods.some((bagItem) => +goodsItem.id === bagItem.prod_id)
+  );
+  return (
+    <div className="header my-4 mb-[10px] flex justify-between w-11/12 mx-auto">
+      <Link
+        className="hidden mr-4 cursor-pointer lg:flex items-center xl:w-2/12 lg:w-3/12"
+        to="/"
+      >
         <svg
-          className="logo ui-icon hidden mr-4 cursor-pointer xl:w-2/12 lg:w-3/12 lg:block"
+          className="logo ui-icon mr-4 cursor-pointer w-full"
           data-v-aa1700bc=""
           viewBox="0 0 215 32"
           fill="none"
@@ -97,47 +153,85 @@ const MiddleHeader = () => {
             fill="#7000FF"
           ></path>
         </svg>
-        <div className="header_btns h-full lg:h-auto w-full lg:w-auto flex items-center gap-2">
-          <button className="catalog hidden lg:flex items-center gap-2 h-11/12 px-7 text-[#7000ff] hover:bg-[#ceccff] ease-in-out duration-150 justify-center bg-[#f0f0ff] rounded p-2">
-            <img src={catalog_icon} alt="" />
-            <p className="text-[#7000ff]">Каталог</p>
-          </button>
-          <div className="searcher_div lg:bg-white relative flex lg:justify-between bg-[#edeff2] pl-1 items-center rounded-lg lg:border lg:border-gray-300 w-full lg:rounded-md">
-            <img className="ml-4 my-1 lg:hidden" src={searcher_icon} alt="" />
-            <input
-              className="searcher_inp w-full lg:bg-white lg:w-96 rounded-lg lg:rounded-none bg-[#edeff2] text-sm lg:text-base border-none lg:h-8 text-gray-500"
-              type="text"
-              placeholder="Искать товары и категории"
-            />
-            <img
-              className="hidden lg:block bg-gray-100 px-6 py-2 rounded-r"
-              src={searcher_icon}
-              alt=""
-            />
-            <div className="searcher_modal py-4 flex-col gap-4 hidden rounded-lg absolute bg-white w-full top-[40px]"></div>
-          </div>
-        </div>
-        <div className="header_right lg:ml-4 hidden lg:flex items-center xl:gap-3">
-          <button className="log_in_btn w-12 xl:w-auto h-10 xl:gap-2 hover:bg-gray-200 xl:px-2 flex items-center rounded">
-            <img className="block" src={log_in_icon} alt="" />
-            <p className="hidden xl:block">Войти</p>
-          </button>
-          <button className="favorites_btn h-10 xl:gap-2 w-12 xl:w-auto hover:bg-gray-200 xl:px-2 flex items-center rounded">
-            <img src={heart_icon} alt="" />
-            <p className="hidden xl:block">Избранное</p>
-          </button>
-          <button className="bag_main_btn h-10 xl:gap-2 w-12 xl:w-auto hover:bg-gray-200 xl:px-2 flex items-center rounded relative">
-            <img src={bag_icon} alt="" />
-            <p className="bag_btn hidden xl:flex xl:gap-1 text-center">
-              Корзина
-              <span className="prod_quantity bg-[#7000ff] text-center text-white px-[7px] py-[1.5px] text-sm rounded"></span>
-            </p>
-            <div className="bag_main_modal absolute flex flex-col bottom-0 rounded left-[-207%]">
-              <div className="bag_modal flex w-[420px] bg-white flex-col"></div>
-            </div>
-          </button>
+      </Link>
+      <div className="header_btns h-full lg:h-auto w-full lg:w-auto flex items-center gap-2">
+        <button className="catalog hidden lg:flex items-center gap-2 h-11/12 px-7 text-[#7000ff] hover:bg-[#ceccff] ease-in-out duration-150 justify-center bg-[#f0f0ff] rounded p-2">
+          <img src={catalog_icon} alt="" />
+          <p className="text-[#7000ff]">Каталог</p>
+        </button>
+        <div className="searcher_div lg:bg-white relative flex lg:justify-between bg-[#edeff2] pl-1 items-center rounded-lg lg:border lg:border-gray-300 w-full lg:rounded-md">
+          <img className="ml-4 my-1 lg:hidden" src={searcher_icon} alt="" />
+          <input
+            className="searcher_inp outline-none w-full lg:bg-white lg:w-96 rounded-lg lg:rounded-none bg-[#edeff2] text-sm lg:text-base border-none lg:h-8 text-gray-500"
+            type="text"
+            placeholder="Искать товары и категории"
+          />
+          <img
+            className="hidden lg:block bg-gray-100 px-6 py-2 rounded-r"
+            src={searcher_icon}
+            alt=""
+          />
+          <div className="searcher_modal py-4 flex-col gap-4 hidden rounded-lg absolute bg-white w-full top-[40px]"></div>
         </div>
       </div>
-    )
-}
-export default MiddleHeader
+      <div className="header_right lg:ml-4 hidden lg:flex items-center xl:gap-3">
+        <button className="log_in_btn relative w-12 xl:w-auto h-10 xl:gap-2 hover:bg-gray-200 xl:px-2 flex items-center rounded">
+          <button onClick={openModal} className="flex gap-1">
+            <img className="block" src={log_in_icon} alt="" />
+            {isUser ? (
+              <p className="hidden xl:block">{user.name}</p>
+            ) : (
+              <p className="hidden xl:block">Войти</p>
+            )}
+          </button>
+          {isOpened ? (
+            isUser ? (
+              <Link to={"profile"} className="w-full h-full absolute"></Link>
+            ) : (
+              <ModalForm isOpen={isOpened} onClose={() => setIsOpened(false)} />
+            )
+          ) : (
+            ""
+          )}
+        </button>
+        <button className="favorites_btn h-10 xl:gap-2 w-12 xl:w-auto hover:bg-gray-200 xl:px-2 flex items-center rounded">
+          <img src={heart_icon} alt="" />
+          <p className="hidden xl:block">Избранное</p>
+        </button>
+        <button
+          onMouseEnter={() => setIsShown(true)}
+          onMouseLeave={() => setIsShown(false)}
+          className="bag_main_btn h-10 xl:gap-2 w-12 xl:w-auto hover:bg-gray-200 xl:px-2 flex items-center rounded relative"
+        >
+          <img src={bag_icon} alt="" />
+          <p className="bag_btn hidden xl:flex xl:gap-1 text-center">
+            Корзина
+            <span
+              className="prod_quantity bg-[#7000ff] text-center text-white px-[7px] py-[1.5px] text-sm rounded"
+              style={
+                res.length > 0 ? { display: "block" } : { display: "none" }
+              }
+            >
+              {res.length}
+            </span>
+          </p>
+          {isShown && (
+            <div className="bag_main_modal absolute flex flex-col bottom-0 rounded left-[-207%]">
+              <div className="bag_modal absolute z-40 flex w-[420px] bg-white flex-col">
+                {res.map((item) => (
+                  <BagModal key={item.id} item={item}></BagModal>
+                ))}
+                <div className="bg-[#f0f0ff] p-4">
+                  <button className="w-full rounded py-[5px] bg-[#7000ff] text-white font-semibold">
+                    Оформить заказ
+                  </button>
+                </div>
+              </div>
+            </div>
+          )}
+        </button>
+      </div>
+    </div>
+  );
+};
+export default MiddleHeader;

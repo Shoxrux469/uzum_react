@@ -1,5 +1,5 @@
 import arrow_bottom from "../../assets/arrow_bottom.svg";
-
+import "../../index.scss"
 const BottomHeader = () => {
   return (
     <ol className="header_bottom mb-3 hidden lg:flex gap-[14px] w-12/12 mx-auto justify-center">
