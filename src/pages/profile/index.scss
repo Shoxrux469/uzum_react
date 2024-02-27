@@ -8,3 +8,9 @@
 .li_btns_active {
   @apply cursor-pointer text-slate-500 hover:text-[#1f2026] text-lg;
 }
+
+.settings{
+    input {
+        @apply px-4 py-2 block
+    }
+}

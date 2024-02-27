@@ -1,5 +1,6 @@
 import { useForm } from "react-hook-form";
 import { user } from "../../modules/user";
+import "./index.scss"
 import axios from "axios";
 const ProfileInfo = ({ status }) => {
   const errorStyle = {
@@ -54,7 +55,7 @@ const ProfileInfo = ({ status }) => {
                 })}
                 defaultValue={user.surname}
                 id="surname"
-                className="surname mb-5 w-full rounded-xl sm:rounded border-[rgba(54,54,64,.2)]"
+                className="surname mb-5 w-full rounded-xl sm:rounded border border-[rgba(54,54,64,.2)]"
                 style={errors.name?.type === "pattern" ? errorStyle : undefined}
               />
             </div>
@@ -67,7 +68,7 @@ const ProfileInfo = ({ status }) => {
                 })}
                 id={"name"}
                 defaultValue={user.name}
-                className="name mb-5 rounded-xl sm:rounded w-full xl:w-fit border-[rgba(54,54,64,.2)]"
+                className="name mb-5 rounded-xl sm:rounded w-full xl:w-fit border border-[rgba(54,54,64,.2)]"
                 style={
                   errors.phone?.type === "pattern" ? errorStyle : undefined
                 }
@@ -88,7 +89,7 @@ const ProfileInfo = ({ status }) => {
               })}
               id={"middlename"}
               defaultValue={user.middlename}
-              className="middle_name rounded-xl mb-5 xl:w-fit sm:rounded w-full border-[rgba(54,54,64,.2)]"
+              className="middle_name rounded-xl mb-5 xl:w-fit sm:rounded w-full border border-[rgba(54,54,64,.2)]"
               placeholder="Отчество"
             />
           </div>
@@ -103,7 +104,7 @@ const ProfileInfo = ({ status }) => {
               })}
               id={"email"}
               defaultValue={user.email}
-              className="w-full email xl:w-fit rounded-xl mb-5 sm:rounded border-[rgba(54,54,64,.2)]"
+              className="w-full email xl:w-fit rounded-xl mb-5 sm:rounded border border-[rgba(54,54,64,.2)]"
             />
           </div>
           <div className="w-full sm:w-1/2 xl:w-fit">
@@ -116,7 +117,7 @@ const ProfileInfo = ({ status }) => {
               })}
               defaultValue={user.phone_num}
               id={"phone"}
-              className="w-full rounded-xl xl:w-fit phone_num mb-5 sm:rounded border-[rgba(54,54,64,.2)]"
+              className="w-full rounded-xl xl:w-fit phone_num mb-5 sm:rounded border border-[rgba(54,54,64,.2)]"
               name="phone_num"
             />
             {errors.phone?.type === "required" ? (
@@ -134,7 +135,7 @@ const ProfileInfo = ({ status }) => {
               <button
                 type="button"
                 name="male"
-                className="w-fit py-[5px] text-[#4d4f59] px-[20px] border border-r-0 border-[rgba(54,54,64,.2)] male"
+                className="w-fit py-[5px] text-[#4d4f59] px-[20px] border-r-0 border border-[rgba(54,54,64,.2)] male"
               >
                 Мужской
               </button>
@@ -155,7 +156,7 @@ const ProfileInfo = ({ status }) => {
               })}
               id={"birthdate"}
               defaultValue={user.birthdate}
-              className="w-full rounded-xl lg:w-fit birthday sm:rounded border-[rgba(54,54,64,.2)]"
+              className="w-full rounded-xl lg:w-fit birthday sm:rounded border border-[rgba(54,54,64,.2)]"
               placeholder="дд/мм/гггг"
             />
           </div>
@@ -164,7 +165,7 @@ const ProfileInfo = ({ status }) => {
           <button
             type="button"
             onClick={log_out}
-            className="log_out sm:text-base ease-in-out duration-300 hover:bg-gray-300 rounded-xl py-2 text-lg font-normal px-4"
+            className="log_out sm:text-base ease-in-out duration-300 hover:bg-gray-300 rounded-xl py-2 text-lg xl:text-[18px] font-normal px-4"
           >
             Выйти из системы
           </button>
