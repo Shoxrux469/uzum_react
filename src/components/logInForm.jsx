@@ -13,7 +13,7 @@ const LogInForm = ({ closeLogIn, handleMessage }) => {
 
   const onSubmit = async (data) => {
     const res = await axios
-      .get("http://localhost:3001/users?phone_num=" + data.phone)
+      .get("http://localhost:3001/users?phone=" + data.phone)
       .then((res) => {
         console.log(res);
         if (res.data.length === 0) {

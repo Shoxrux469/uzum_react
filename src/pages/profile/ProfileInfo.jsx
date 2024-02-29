@@ -2,7 +2,13 @@ import { useForm } from "react-hook-form";
 import { user } from "../../modules/user";
 import "./index.scss";
 import axios from "axios";
-const ProfileInfo = ({ status }) => {
+import { useMutation, useQuery } from "react-query";
+const getUser = async () => {
+  const res = await axios.get("http://localhost:3001/users");
+  return res.data;
+};
+
+const ProfileInfo = ({ status, handleMessage }) => {
   const errorStyle = {
     border: "2px solid red",
   };
@@ -12,28 +18,61 @@ const ProfileInfo = ({ status }) => {
     formState: { errors },
   } = useForm();
 
+  const mutation = useMutation(async ({ id, user }) => {
+    const res = axios.patch("http://localhost:3001/users/" + id, user);
+    return res.data;
+  });
+
   const log_out = () => {
     localStorage.removeItem("user");
     window.location.reload();
     window.location.assign("/");
   };
 
-  const onSubmit = async (data) => {
-    const res = await axios
-      .get("http://localhost:3001/users?phone_num=" + +user.phone_num)
-      .then((res) => {
-        for (let item of res.data) {
-          axios
-            .patch("http://localhost:3001/users/" + item.id, data)
-            .then((res) => {
-              if (res.status !== 200 && res.status !== 201) return;
-              localStorage.removeItem("user");
-              localStorage.setItem("user", JSON.stringify(res.data));
-            });
-        }
-      });
-    console.log(res);
+  const handleChange = (item, data) => {
+    mutation.mutateAsync({ id: item.id, user: data });
+    localStorage.removeItem("user");
+    localStorage.setItem("user", JSON.stringify(data));
   };
+
+  const { data: usersArr, isLoading, isError } = useQuery("goods", getUser);
+
+  const onSubmit = async (data) => {
+    if (data.phone !== user.phone) {
+      console.log(data);
+      for (let item of usersArr) {
+        if (data.phone === item.phone) {
+          handleMessage(true, "acc with this phone num already exists");
+        } else {
+          const res = await axios
+            .get("http://localhost:3001/users?phone=" + +user.phone)
+            .then((res) => {
+              for (let item of res.data) {
+                console.log(data);
+                handleChange(item, data);
+              }
+            });
+          return res;
+        }
+      }
+    } else {
+      const res = await axios
+        .get("http://localhost:3001/users?phone=" + +user.phone)
+        .then((res) => {
+          for (let item of res.data) {
+            console.log(data);
+            handleChange(item, data);
+          }
+        });
+      return res;
+    }
+    setTimeout(() => {
+      handleMessage(false);
+    }, 3000);
+  };
+
+  if (isLoading) return <div>Loading...</div>;
+  if (isError) return <div>Error fetching data</div>;
   return (
     <div style={status === false ? { display: "flex" } : { display: "none" }}>
       <form
@@ -53,7 +92,7 @@ const ProfileInfo = ({ status }) => {
                 })}
                 defaultValue={user.surname}
                 id="surname"
-                className="surname mb-5 w-full rounded-xl sm:rounded border border-[rgba(54,54,64,.2)]"
+                className="surname w-full profile_inputs "
                 style={errors.name?.type === "pattern" ? errorStyle : undefined}
               />
             </div>
@@ -66,7 +105,7 @@ const ProfileInfo = ({ status }) => {
                 })}
                 id={"name"}
                 defaultValue={user.name}
-                className="name mb-5 rounded-xl sm:rounded w-full xl:w-fit border border-[rgba(54,54,64,.2)]"
+                className="name  profile_inputs  w-full xl:w-fit"
                 style={
                   errors.phone?.type === "pattern" ? errorStyle : undefined
                 }
@@ -86,8 +125,9 @@ const ProfileInfo = ({ status }) => {
                 pattern: /^[а-яА-ЯёЁa-zA-Z]+$/,
               })}
               id={"middlename"}
+              style={errors.phone?.type === "pattern" ? errorStyle : undefined}
               defaultValue={user.middlename}
-              className="middle_name rounded-xl mb-5 xl:w-fit sm:rounded w-full border border-[rgba(54,54,64,.2)]"
+              className="middle_name profile_inputs  xl:w-fit  w-full"
               placeholder="Отчество"
             />
           </div>
@@ -102,7 +142,8 @@ const ProfileInfo = ({ status }) => {
               })}
               id={"email"}
               defaultValue={user.email}
-              className="w-full email xl:w-fit rounded-xl mb-5 sm:rounded border border-[rgba(54,54,64,.2)]"
+              style={errors.phone?.type === "pattern" ? errorStyle : undefined}
+              className="w-full email xl:w-fit profile_inputs"
             />
           </div>
           <div className="w-full sm:w-1/2 xl:w-fit">
@@ -113,10 +154,10 @@ const ProfileInfo = ({ status }) => {
                 pattern:
                   /^(\+)?((\d{2,3}) ?\d|\d)(([ -]?\d)|( ?(\d{2,3}) ?)){5,12}\d$/,
               })}
-              defaultValue={user.phone_num}
               id={"phone"}
-              className="w-full rounded-xl xl:w-fit phone_num mb-5 sm:rounded border border-[rgba(54,54,64,.2)]"
-              name="phone_num"
+              defaultValue={user.phone}
+              style={errors.phone?.type === "pattern" ? errorStyle : undefined}
+              className="w-full profile_inputs xl:w-fit phone_num"
             />
             {errors.phone?.type === "required" ? (
               <span className="text-xs text-red-600 font-medium">
@@ -133,14 +174,14 @@ const ProfileInfo = ({ status }) => {
               <button
                 type="button"
                 name="male"
-                className="w-fit py-[5px] text-[#4d4f59] px-[20px] border-r-0 border border-[rgba(54,54,64,.2)] male"
+                className="w-fit py-[5px] text-[#4d4f59] px-[20px] border-r-0 male border border-[rgba(54,54,64,.2)]"
               >
                 Мужской
               </button>
               <button
                 type="button"
                 name="female"
-                className="w-fit py-[5px] text-[#4d4f59] px-[20px] border border-[rgba(54,54,64,.2)] female"
+                className="w-fit py-[5px] text-[#4d4f59] px-[20px] female border border-[rgba(54,54,64,.2)]"
               >
                 Женский
               </button>
@@ -149,12 +190,10 @@ const ProfileInfo = ({ status }) => {
           <div className="w-full sm:w-1/2 mt-5 flex flex-col gap-1">
             <label htmlFor="birthdate">Дата рождения</label>
             <input
-              {...register("birthdate", {
-                pattern: /^\d{2}\/\d{2}\/\d{4}$/,
-              })}
+              {...register("birthdate")}
               id={"birthdate"}
               defaultValue={user.birthdate}
-              className="w-full rounded-xl lg:w-fit birthday sm:rounded border border-[rgba(54,54,64,.2)]"
+              className="w-full profile_inputs lg:w-fit birthday "
               placeholder="дд/мм/гггг"
             />
           </div>
@@ -163,13 +202,13 @@ const ProfileInfo = ({ status }) => {
           <button
             type="button"
             onClick={log_out}
-            className="log_out sm:text-base ease-in-out duration-300 hover:bg-gray-300 rounded-xl py-2 text-lg xl:text-[18px] font-normal px-4"
+            className="log_out sm:text-base ease-in-out duration-300 hover:bg-gray-300 profile_inputs py-2 text-lg xl:text-[18px] font-normal px-4"
           >
             Выйти из системы
           </button>
           <button
             type="submit"
-            className="bg-[#7000ff] text-[#fff] text-sm sm:text-base py-2 px-5 rounded-xl font-semibold"
+            className="bg-[#7000ff] text-[#fff] text-sm sm:text-base py-2 px-5 profile_inputs font-semibold"
           >
             Сохранить
           </button>

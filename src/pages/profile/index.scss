@@ -9,8 +9,12 @@
   @apply cursor-pointer text-slate-500 hover:text-[#1f2026] text-lg;
 }
 
-.settings{
-    input {
-        @apply px-4 py-2 block
-    }
+.settings {
+  input {
+    @apply px-4 py-2 block;
+  }
+}
+
+.profile_inputs {
+  @apply sm:rounded rounded-xl mb-5  border border-[rgba(54,54,64,.2)] outline-none;
 }

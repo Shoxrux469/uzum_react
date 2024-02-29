@@ -1,5 +1,11 @@
 import axios from "axios";
 import { useForm } from "react-hook-form";
+import { useMutation } from "react-query";
+
+const postUser = async (userData) => {
+  const res = await axios.post(`http://localhost:3001/users`, userData);
+  return res.data;
+};
 
 const SignInForm = ({ closeSignIn, handleMessage }) => {
   const {
@@ -8,33 +14,29 @@ const SignInForm = ({ closeSignIn, handleMessage }) => {
     formState: { errors },
   } = useForm();
 
+  const mutation = useMutation(postUser);
+
   const errorStyle = {
     border: "2px solid red",
   };
 
   const onSubmit = async (data) => {
-    const res = await axios
+    await axios
       .get("http://localhost:3001/users?phone=" + data.phone)
       .then((res) => {
-        console.log(res.data);
-        console.log(data);
         if (res.data.length !== 0) {
           handleMessage(true, "This acc already exists");
         } else {
-          axios.post(`http://localhost:3001/users`, data).then((res) => {
-            if (res.status === 200 || res.status === 201) {
-              localStorage.setItem("user", JSON.stringify(res.data));
-              //   window.location.reload();
-              console.log(res.data);
-            }
-          });
+          mutation.mutateAsync(data);
+          localStorage.setItem("user", JSON.stringify(data));
+          window.location.reload();
+          console.log(data);
         }
       });
-    setTimeout(() => {
-      handleMessage(false);
-    }, 3000);
-    return res;
   };
+  setTimeout(() => {
+    handleMessage(false);
+  }, 3000);
 
   return (
     <form

@@ -20,7 +20,6 @@ const MiddleHeader = () => {
       setIsUser(false);
     } else {
       setIsUser(true);
-      console.log(user);
     }
   }, [isUser]);
 
