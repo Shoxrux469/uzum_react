@@ -1,14 +1,14 @@
-import SwiperFade from "../components/swiper";
-import arrow_right from "../assets/arrow_right.svg";
+import SwiperFade from "../../components/swiper";
+import arrow_right from "../../assets/arrow_right.svg";
 import axios from "axios";
 import { useQuery } from "react-query";
-import discountsSlider from "../assets/discounts_slider.png";
-import cashbackSlide from "../assets/cashback_slide.svg";
-import technoSlide from "../assets/techno_slide.svg";
-import clothesSlide from "../assets/clothes_slide.svg";
-import kitchenSlide from "../assets/kitcher_slide.svg";
-import "../index.scss";
-import ProductCard from "../components/ProductCard";
+import discountsSlider from "../../assets/discounts_slider.png";
+import cashbackSlide from "../../assets/cashback_slide.svg";
+import technoSlide from "../../assets/techno_slide.svg";
+import clothesSlide from "../../assets/clothes_slide.svg";
+import kitchenSlide from "../../assets/kitcher_slide.svg";
+import "../../index.scss";
+import ProductCard from "../../components/ProductCard";
 const Home = () => {
   const getData = async () => {
     const res = await axios.get("http://localhost:3001/goods");
@@ -20,10 +20,12 @@ const Home = () => {
   if (isLoading) return <div>Loading...</div>;
   if (isError) return <div>Error fetching data</div>;
 
-  const likedGoods = data.filter((good) => good.status === 1);
+  const likedGoods = data.filter((good) => good.status === true);
   const saleGoods = data.filter((good) => good.isBlackFriday);
 
   const sortedGoods = [...likedGoods, ...saleGoods];
+
+  const slicedGoods = sortedGoods.slice(0, 15);
 
   const Armchairs = data.filter((good) => good.type === "furniture");
 
@@ -45,7 +47,7 @@ const Home = () => {
           <img src={arrow_right} alt="" />
         </h1>
         <div className="prods_div">
-          {sortedGoods.map((good) => (
+          {slicedGoods.map((good) => (
             <ProductCard key={good.id} good={good} />
           ))}
         </div>

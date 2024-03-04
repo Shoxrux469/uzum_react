@@ -185,7 +185,7 @@ const MiddleHeader = () => {
           </button>
           {isOpened ? (
             isUser ? (
-              <Link to={"profile"} className="w-full h-full absolute"></Link>
+              <Link to={"/profile"} className="w-full h-full absolute"></Link>
             ) : (
               <ModalForm isOpen={isOpened} onClose={() => setIsOpened(false)} />
             )
@@ -193,9 +193,11 @@ const MiddleHeader = () => {
             ""
           )}
         </button>
-        <button className="favorites_btn h-10 xl:gap-2 w-12 xl:w-auto hover:bg-gray-200 xl:px-2 flex items-center rounded">
-          <img src={heart_icon} alt="" />
-          <p className="hidden xl:block">Избранное</p>
+        <button className="favorites_btn h-10 w-12 xl:w-auto hover:bg-gray-200 xl:px-2 rounded">
+          <Link to={"/favourites"} className="flex items-center xl:gap-2">
+            <img src={heart_icon} alt="" />
+            <p className="hidden xl:block">Избранное</p>
+          </Link>
         </button>
         <button
           onMouseEnter={() => setIsShown(true)}
@@ -203,16 +205,18 @@ const MiddleHeader = () => {
           className="bag_main_btn h-10 xl:gap-2 w-12 xl:w-auto hover:bg-gray-200 xl:px-2 flex items-center rounded relative"
         >
           <img src={bag_icon} alt="" />
-          <p className="bag_btn hidden xl:flex xl:gap-1 text-center">
-            Корзина
-            <span
-              className="prod_quantity bg-[#7000ff] text-center text-white px-[7px] py-[1.5px] text-sm rounded"
-              style={
-                res.length > 0 ? { display: "block" } : { display: "none" }
-              }
-            >
-              {res.length}
-            </span>
+          <p className="bag_btn">
+            <Link to="/bagPage" className="hidden xl:flex xl:gap-1 text-center">
+              Корзина
+              <span
+                className="prod_quantity bg-[#7000ff] text-center text-white px-[7px] py-[1.5px] text-sm rounded"
+                style={
+                  res.length > 0 ? { display: "block" } : { display: "none" }
+                }
+              >
+                {res.length}
+              </span>
+            </Link>
           </p>
           {isShown && (
             <div className="bag_main_modal absolute flex flex-col bottom-0 rounded left-[-207%]">
