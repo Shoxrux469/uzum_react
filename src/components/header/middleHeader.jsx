@@ -15,6 +15,7 @@ const MiddleHeader = () => {
   const [isShown, setIsShown] = useState(false);
   const [isUser, setIsUser] = useState(false);
   const [isOpened, setIsOpened] = useState(false);
+  // console.log();
   useEffect(() => {
     if (user.length === 0) {
       setIsUser(false);
@@ -22,17 +23,6 @@ const MiddleHeader = () => {
       setIsUser(true);
     }
   }, [isUser]);
-
-  const bagFetch = async () => {
-    const response = await axios.get("http://localhost:3001/bag");
-    // console.log(response.data);
-    return response.data;
-  };
-  const goodsFetch = async () => {
-    const response = await axios.get("http://localhost:3001/goods");
-    // console.log(response.data);
-    return response.data;
-  };
 
   const openModal = () => {
     setIsOpened(true);
@@ -42,19 +32,40 @@ const MiddleHeader = () => {
     data: bagGoods,
     isLoading: bagLoading,
     isError: bagError,
-  } = useQuery("bagData", bagFetch);
+  } = useQuery("bagData", async () => {
+    try {
+      const response = await axios.get("http://localhost:3001/bag");
+      // console.log(response.data);
+      return response.data;
+    } catch (e) {
+      console.log("error fetching data", e);
+    }
+  });
   const {
     data: Goods,
     isLoading: goodsLoading,
     isError: goodsError,
-  } = useQuery("goodsData", goodsFetch);
+  } = useQuery("goodsData", async () => {
+    try {
+      const response = await axios.get("http://localhost:3001/goods");
+      // console.log(response.data);
+      return response.data;
+    } catch (e) {
+      console.log("error fetching data", e);
+    }
+  });
 
   if (bagLoading || goodsLoading) return <div>Loading...</div>;
   if (bagError || goodsError) return <div>Error fetching data</div>;
 
-  const res = Goods.filter((goodsItem) =>
-    bagGoods.some((bagItem) => +goodsItem.id === bagItem.prod_id)
-  );
+  const res =
+    Goods || bagGoods
+      ? Goods.filter((goodsItem) =>
+          bagGoods.some((bagItem) => +goodsItem.id === bagItem.prod_id)
+        )
+      : [];
+
+  console.log();
   return (
     <div className="header my-4 mb-[10px] flex justify-between w-11/12 mx-auto">
       <Link

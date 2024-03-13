@@ -85,7 +85,7 @@ const Product = () => {
                   {/* {myProd.price * quantity} руб/ед */}
                   {myProd.price -
                     Math.floor((myProd.price * myProd.salePercentage) / 100) *
-                      quantity}{" "}
+                    quantity}{" "}
                   руб/ед
                 </span>
                 <span className="bg-[#5000AA] w-fit px-2 text-sm text-white font-medium rounded flex items-center justify-center">
@@ -137,7 +137,7 @@ const Product = () => {
                 <span className="price text-xl font-semibold">
                   {myProd.price -
                     Math.floor((myProd.price * myProd.salePercentage) / 100) *
-                      quantity}{" "}
+                    quantity}{" "}
                   руб/ед
                 </span>
                 <span className="bg-[#5000AA] w-fit px-2 text-sm text-white font-medium rounded flex items-center justify-center">

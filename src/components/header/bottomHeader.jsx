@@ -1,45 +1,34 @@
 import arrow_bottom from "../../assets/arrow_bottom.svg";
 import "../../index.scss"
+import "./index.scss"
 const BottomHeader = () => {
+  const Categories = [
+    { name: "Электроника" },
+    { name: "Бытовая техника" },
+    { name: "Одежда" },
+    { name: "Обувь" },
+    { name: "Аксессуары" },
+    { name: "Красота" },
+    { name: "Здоровье" },
+    { name: "Товары для дома" },
+    { name: "Строительство и ремонт" },
+  ]
+
   return (
-    <ol className="header_bottom mb-3 hidden lg:flex gap-[14px] w-12/12 mx-auto justify-center">
-      <li className="text-[#595b66] h-[28px] cursor-pointer border-black">
-        Электроника
-      </li>
-      <li className="text-[#595b66] h-[28px] cursor-pointer border-black">
-        Бытовая техника
-      </li>
-      <li className="text-[#595b66] h-[28px] cursor-pointer border-black">
-        Одежда
-      </li>
-      <li className="text-[#595b66] h-[28px] cursor-pointer border-black">
-        Обувь
-      </li>
-      <li className="text-[#595b66] h-[28px] cursor-pointer border-black">
-        Аксессуары
-      </li>
-      <li className="text-[#595b66] h-[28px] cursor-pointer border-black">
-        Красота
-      </li>
-      <li className="text-[#595b66] h-[28px] cursor-pointer border-black">
-        Здоровье
-      </li>
-      <li className="text-[#595b66] h-[28px] cursor-pointer border-black">
-        Товары для дома
-      </li>
-      <li className="text-[#595b66] h-[28px] cursor-pointer border-black">
-        Строительство и ремонт
-      </li>
-      <li className="text-[#595b66] h-[28px] cursor-pointer border-black hidden xl:block">
+    <ul className="header_bottom mb-3 hidden lg:flex gap-[14px] w-12/12 mx-auto justify-center">
+      {Categories.map((item, i) => (
+        <li className="categories_style" key={i}>{item.name}</li>
+      ))}
+      <li className="categories_style hidden xl:block">
         Автотовары
       </li>
-      <li className="text-[#595b66] h-[28px] cursor-pointer border-black hidden xl:block">
+      <li className="categories_style hidden xl:block">
         Детские товары
       </li>
-      <li className="text-[#595b66] h-[28px] cursor-pointer border-black flex items-center gap-1">
+      <li className="categories_style flex items-center gap-1">
         Еще <img src={arrow_bottom} alt="" />
       </li>
-    </ol>
+    </ul>
   );
 };
 

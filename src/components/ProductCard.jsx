@@ -6,7 +6,7 @@ import bag_icon from "../assets/product_bag_icon.svg";
 import { useMutation } from "react-query";
 import axios from "axios";
 import { useState } from "react";
-import { Link } from "react-router-dom";
+// import { Link } from "react-router-dom";
 
 const updateProductStatus = async (productId, newStatus) => {
   const response = await axios.patch(
@@ -22,8 +22,8 @@ const updateProductStatus = async (productId, newStatus) => {
 const ProductCard = ({ good }) => {
   const [status, setStatus] = useState(good.status);
 
-  const { mutate, isLoading } = useMutation(
-    () => updateProductStatus(good.id, !status),
+  const { mutate, isLoading } = useMutation(() =>
+    updateProductStatus(good.id, !status)
   );
 
   const handleLike = async () => {

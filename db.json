@@ -114,7 +114,7 @@
         "https://img.mvideo.ru/Big/50143597bb.jpg"
       ],
       "type": "furniture",
-      "status": true
+      "status": false
     },
     {
       "id": "5",
@@ -203,7 +203,7 @@
         "https://img.mvideo.ru/Big/40072385bb1.jpg"
       ],
       "type": "furniture",
-      "status": true
+      "status": false
     },
     {
       "id": "10",

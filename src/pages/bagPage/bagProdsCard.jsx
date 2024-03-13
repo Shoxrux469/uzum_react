@@ -1,9 +1,9 @@
-import { useQuery } from "react-query";
+import { useMutation, useQuery } from "react-query";
 import minus_img from "../../assets/minus_btn.svg";
 import plus_img from "../../assets/plus_btn.svg";
 import axios from "axios";
 import trash_img from "../../assets/trash_img.png";
-
+import BagProdPrices from "../../hooks/bagProdPrices";
 // export const RealPrice = async ({ good, res }) => {
 //   const result =
 //     (
@@ -14,11 +14,25 @@ import trash_img from "../../assets/trash_img.png";
 //       .replace(/\B(?=(\d{3})+(?!\d))/g, " ") + " руб";
 //   return await result;
 // };
-
 const BagProdsCard = ({ good }) => {
   const getData = async () => {
     const res = await axios.get("http://localhost:3001/bag");
     return res.data;
+  };
+
+  const mutation = useMutation(async (newNum) => {
+    const res = await axios.patch(
+      `http://localhost:3001/bag?prod_id=` + good.id,
+      {
+        num: newNum,
+      }
+    );
+    console.log(res.data);
+    return res.data;
+  });
+
+  const handleBag = (newNum) => {
+    mutation.mutateAsync(newNum);
   };
 
   // const minus_btn = (data) => {
@@ -28,26 +42,12 @@ const BagProdsCard = ({ good }) => {
   //   mutation.mutateAsync({ num: data });
   // };
 
-  const toggleNum = async(newNum) => {
-    try {
-      const response = await axios.patch(
-        `http://localhost:3001/bag/${good.id}`,
-        {
-          num: newNum,
-        }
-      );
-    } catch(e) {
-      console.error("Error updating product status:", e);
-    }
-  }
-
   const { data, isLoading, isError } = useQuery("bag", getData);
 
   if (isLoading) return <div>Loading...</div>;
   if (isError) return <div>Error fetching data</div>;
 
   const res = data.filter((prod) => +good.id === prod.prod_id);
-
   const realPrice =
     (
       (good.price - Math.floor((good.price * good.salePercentage) / 100)) *
@@ -69,9 +69,19 @@ const BagProdsCard = ({ good }) => {
         </div>
         <div className="flex flex-col items-center">
           <div className="flex xl:px-2 xl:gap-2 items-center border border-gray-300">
-            <img onClick={() => toggleNum(res[0].num--)} src={minus_img} alt="" />
+            <img
+              className="cursor-pointer"
+              onClick={() => handleBag(res[0].num - 1)}
+              src={minus_img}
+              alt=""
+            />
             <p>{res[0].num}</p>
-            <img onClick={() => toggleNum(res[0].num++)} src={plus_img} alt="" />
+            <img
+              className="cursor-pointer"
+              onClick={() => handleBag(res[0].num + 1)}
+              src={plus_img}
+              alt=""
+            />
           </div>
           <p className="text-gray-600">{realPrice}</p>
         </div>
@@ -79,7 +89,9 @@ const BagProdsCard = ({ good }) => {
           <div className="flex flex-col items-end">
             <div className="flex items-center gap-1">
               <img className="max-w-6 h-fit" src={trash_img} alt="" />
-              <p className="font-semibold text-gray-500">Удалить</p>
+              <p className="font-semibold cursor-pointer text-gray-500 hover:text-black duration-500 ease-in-out">
+                Удалить
+              </p>
             </div>
             <h2 className="xl:text-2xl font-semibold">{realPrice}</h2>
             <p className="text-gray-500 line-through">

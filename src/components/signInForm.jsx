@@ -22,7 +22,7 @@ const SignInForm = ({ closeSignIn, handleMessage }) => {
 
   const onSubmit = async (data) => {
     await axios
-      .get("http://localhost:3001/users?phone=" + data.phone)
+      .get("http://localhost:3001/users?phone="   + data.phone)
       .then((res) => {
         if (res.data.length !== 0) {
           handleMessage(true, "This acc already exists");

@@ -10,12 +10,11 @@ import kitchenSlide from "../../assets/kitcher_slide.svg";
 import "../../index.scss";
 import ProductCard from "../../components/ProductCard";
 const Home = () => {
-  const getData = async () => {
+  const { data, isLoading, isError } = useQuery("goods", async () => {
     const res = await axios.get("http://localhost:3001/goods");
+    // console.log(res.data);
     return res.data;
-  };
-
-  const { data, isLoading, isError } = useQuery("goods", getData);
+  });
 
   if (isLoading) return <div>Loading...</div>;
   if (isError) return <div>Error fetching data</div>;
