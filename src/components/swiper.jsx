@@ -24,7 +24,7 @@ const SwiperFade = () => {
           delay: 5000,
           disableOnInteraction: false,
         }}
-        crossFade={true}
+        crossfade="true"
         slidesPerView={1}
         loop={true}
         className="mySwiper rounded-3xl"
@@ -32,7 +32,7 @@ const SwiperFade = () => {
         <SwiperSlide>
           {/* <img className="w-full h-screen" src={show_room} alt="" /> */}
           <img
-            class="w-full h-[250px] md:h-[350px] lg:h-[450px]"
+            className="w-full h-[250px] md:h-[350px] lg:h-[450px]"
             src={slide_1}
             alt=""
           />

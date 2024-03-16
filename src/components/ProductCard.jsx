@@ -6,47 +6,79 @@ import bag_icon from "../assets/product_bag_icon.svg";
 import { useMutation } from "react-query";
 import axios from "axios";
 import { useState } from "react";
+import BagGoods from "../hooks/getGoods";
+import PopUpModal from "./popUpModal";
 // import { Link } from "react-router-dom";
 
-const updateProductStatus = async (productId, newStatus) => {
-  const response = await axios.patch(
-    `http://localhost:3001/goods/${productId}`,
-    {
-      status: newStatus,
-    }
-  );
-  console.log(response.data);
-  return response.data;
-};
-
 const ProductCard = ({ good }) => {
-  const [status, setStatus] = useState(good.status);
+  const [status, setStatus] = useState(good && good.status);
+  const { bagGoods } = BagGoods()
+  const [isVisible, setIsVisible] = useState(false);
 
-  const { mutate, isLoading } = useMutation(() =>
-    updateProductStatus(good.id, !status)
+
+  const { mutate: updateStatus } = useMutation(async (newStatus) =>
+    await axios.patch(
+      `http://localhost:3001/goods/${good.id}`,
+      {
+        status: newStatus,
+      }
+    )
+  );
+
+  const { mutate: addToBag } = useMutation(async (productId) =>
+    await axios.post(
+      "http://localhost:3001/bag",
+      {
+        prod_id: productId,
+        num: 1
+      }
+    ).then(res => {
+      setIsVisible(true);
+      setTimeout(() => {
+
+        setIsVisible(false);
+      })
+    })
+  );
+  const { mutate: patchtoBag } = useMutation(async ({ productId, productNum }) => {
+    await axios.patch(
+      `http://localhost:3001/bag/${productId}`,
+      {
+        num: productNum += 1
+      }
+    ).then(res => {
+      setIsVisible(true);
+      setTimeout(() => {
+
+        setIsVisible(false);
+      })
+    })
+  }
   );
 
   const handleLike = async () => {
-    try {
-      await mutate(!status);
-    } catch (error) {
-      console.error("Error updating product status:", error);
-    }
+    const newStatus = !status;
+    setStatus(newStatus);
+    updateStatus(newStatus);
+
   };
 
-  const mutation = useMutation(async ({ good }) => {
-    const res = axios.post("http://localhost:3001/users", good);
-    return res.data;
-  });
-
   const handleBag = () => {
-    mutation.mutateAsync(good);
+    const isProdExist = bagGoods.find(prod => prod.prod_id === good && good.id)
+    if (isProdExist === undefined) {
+      console.log(good && good.id);
+      addToBag(good && good.id);
+    } else {
+      // console.log("Product Num:", isProdExist.num);
+      isProdExist && patchtoBag({ productId: isProdExist.id, productNum: isProdExist.num })
+    }
   };
 
   return (
     <>
+      <PopUpModal status={isVisible} item={good} />
       {/* <Link to={`/product?id=${good.id}`}> */}
-      <ul key={good.id} className="w-[230px]">
+      <ul key={good && good.id} className="w-[230px]">
         <li className="w-full relative">
           <img
             className="w-7 absolute right-0 cursor-pointer"
@@ -56,30 +88,29 @@ const ProductCard = ({ good }) => {
               setStatus(!status);
               handleLike(good.id);
             }}
-            disabled={isLoading}
           />
-          <img className="w-full" src={good.media[0]} alt="" />
+          <img className="w-full" src={good && good.media[0]} alt="" />
           <div className="bg-[#5000AA] absolute bottom-0 left-0 w-fit text-white px-[6px] rounded text-center">
             Акция
           </div>
         </li>
         <li className="mt-2">
           <p className="text-sm text-black/75">
-            {good.title.slice(0, 48) + ".."}
+            {good && good.title.slice(0, 48) + ".."}
           </p>
           <span className="flex items-center text-black/70 text-sm">
-            <img src={star_icon} alt="" /> {good.rating}
+            <img src={star_icon} alt="" /> {good && good.rating}
           </span>
           <p className="bg-[#FFFF00] w-fit px-1 my-2 rounded text-sm">
-            {Math.floor((good.price * 12) / 100)} руб/мес
+            {Math.floor((good && good.price * 12) / 100)} руб/мес
           </p>
           <div className="flex justify-between items-center">
             <div>
               <p className="line-through text-[#757575] text-xs">
-                {good.price} руб
+                {good && good.price} руб
               </p>
               <span>
-                {good.price -
+                {good && good.price -
                   Math.floor((good.price * good.salePercentage) / 100)}
                 руб
               </span>

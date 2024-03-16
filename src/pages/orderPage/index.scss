@@ -1,0 +1,23 @@
+.profile_info_ul {
+  li {
+    @apply flex flex-col;
+    input {
+      @apply border px-2 py-[6px] border-black/20;
+    }
+  }
+}
+
+.profile_inp {
+  @apply border px-2 py-[6px] border-black/20;
+}
+
+.expanded {
+  max-height: 100%; /* Adjust as needed */
+  opacity: 1;
+  transition: 0.4s ease-in-out; /* Transition effect for smooth expansion */
+}
+.collapsed {
+  max-height: 0px;
+  opacity: 0;
+  transition: 0.4s ease-in-out;
+}

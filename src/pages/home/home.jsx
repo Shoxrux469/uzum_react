@@ -35,6 +35,15 @@ const Home = () => {
   const Audio = data.filter((good) => good.type === "audio");
 
   const Kitchen = data.filter((good) => good.type === "kitchen");
+
+  const sections = [
+    { slider: discountsSlider, type: "Кресла", arr: Armchairs },
+    { slider: cashbackSlide, type: "Компьютеры", arr: PC },
+    { slider: technoSlide, type: "Телевизоры", arr: TV },
+    { slider: clothesSlide, type: "Аудио", arr: Audio },
+    { slider: kitchenSlide, type: "Бытовая техника", arr: Kitchen },
+  ]
+
   return (
     <>
       <section className="w-11/12 mx-auto">
@@ -51,81 +60,25 @@ const Home = () => {
           ))}
         </div>
       </section>
-      <section className="section_style">
-        <img src={discountsSlider} alt="" />
-        <div>
-          <h1 className="my-5 text-lg lg:text-2xl flex items-center font-bold">
-            <p className="mb-2">Кресла</p>
-            <img src={arrow_right} alt="" />
-          </h1>
-          {/* <ReloadGoods sortedGoods={Armchairs} /> */}
-          <div className="prods_div">
-            {Armchairs.map((good) => (
-              <ProductCard key={good.id} good={good} />
-            ))}
+      {sections.map((item, i) => (
+        <section key={i} className="section_style">
+          <img src={item.slider} alt="" />
+          <div>
+            <h1 className="my-5 text-lg lg:text-2xl flex items-center font-bold">
+              <p className="mb-2">{item.type}</p>
+              <img src={arrow_right} alt="" />
+            </h1>
+            <div className="prods_div">
+              {item.arr.map((good) => (
+                <ProductCard key={`${good.id}_${good.type}`} good={good} />
+              ))}
+            </div>
           </div>
-        </div>
-      </section>
-      <section className="section_style">
-        <img src={cashbackSlide} alt="" />
-        <div>
-          <h1 className="my-5 text-lg lg:text-2xl flex items-center font-bold">
-            <p className="mb-2">Компьютеры</p> <img src={arrow_right} alt="" />
-          </h1>
-          {/* <ReloadGoods sortedGoods={PC} /> */}
-          <div className="prods_div">
-            {PC.map((good) => (
-              <ProductCard key={good.id} good={good} />
-            ))}
-          </div>
-        </div>
-      </section>
-      <section className="section_style">
-        <img src={technoSlide} alt="" />
-        <div>
-          <h1 className="my-5 text-lg lg:text-2xl flex items-center font-bold">
-            <p className="mb-2">Телевизоры</p> <img src={arrow_right} alt="" />
-          </h1>
-          {/* <ReloadGoods sortedGoods={TV} /> */}
-          <div className="prods_div">
-            {TV.map((good) => (
-              <ProductCard key={good.id} good={good} />
-            ))}
-          </div>
-        </div>
-      </section>
-      <section className="section_style">
-        <img src={clothesSlide} alt="" />
-        <div>
-          <h1 className="my-5 text-lg lg:text-2xl flex items-center font-bold">
-            <p className="mb-2">Аудио</p> <img src={arrow_right} alt="" />
-          </h1>
-          {/* <ReloadGoods sortedGoods={Audio} /> */}
-          <div className="prods_div">
-            {Audio.map((good) => (
-              <ProductCard key={good.id} good={good} />
-            ))}
-          </div>
-        </div>
-      </section>
-      <section className="section_style">
-        <img src={kitchenSlide} alt="" />
-        <div>
-          <h1 className="my-5 text-lg lg:text-2xl flex items-center font-bold">
-            <p className="mb-2">Бытовая техника</p>{" "}
-            <img src={arrow_right} alt="" />
-          </h1>
-          {/* <ReloadGoods sortedGoods={Kitchen} /> */}
-          <div className="prods_div">
-            {Kitchen.map((good) => (
-              <ProductCard key={good.id} good={good} />
-            ))}
-          </div>
-          <button className="mx-auto bg-gray-200 my-12 w-7/12 rounded font-semibold py-3 flex justify-center items-center">
-            Больше продуктов не дали
-          </button>
-        </div>
-      </section>
+        </section>
+      ))}
+      <button className="mx-auto bg-gray-200 my-12 w-7/12 rounded font-semibold py-3 flex justify-center items-center">
+        Больше продуктов не дали
+      </button>
     </>
   );
 };

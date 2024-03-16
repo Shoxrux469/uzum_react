@@ -1,5 +1,5 @@
 import { Link } from "react-router-dom";
-import trash_icon from "../../assets/trash_img.png";
+import trash_icon from "../../../assets/trash_img.png";
 
 const BagModal = ({ item }) => {
   return (
@@ -16,6 +16,10 @@ const BagModal = ({ item }) => {
               {item.price -
                 Math.floor((item.price * item.salePercentage) / 100)}
               руб
+              X
+              {
+
+              }
             </span>
           </div>
           <img className="w-4 h-fit" src={trash_icon} alt="" />

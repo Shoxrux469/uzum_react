@@ -1,6 +1,6 @@
 import nothing from "../../assets/Без названия.svg";
 import TopHeader from "./topHeader";
-import MiddleHeader from "./middleHeader";
+import MiddleHeader from "./middleHeader/middleHeader";
 import BottomHeader from "./bottomHeader";
 const Header = () => {
   return (

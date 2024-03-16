@@ -8,24 +8,22 @@ import arrow_right from "../../assets/arrow_right.svg";
 import exclamation from "../../assets/exclamation.svg";
 import { useState } from "react";
 import "./index.scss";
-import { useQuery } from "react-query";
-import axios from "axios";
 import SimilarProds from "./similarProds";
+import GetGoods from "../../hooks/getGoods";
 const Product = () => {
   const location = useLocation();
   const searchParams = new URLSearchParams(location.search);
   const id = JSON.parse(searchParams.get("id"));
+  const { Goods } = GetGoods()
 
-  console.log(id);
+  // const getData = async () => {
+  //   const res = await axios.get("http://localhost:3001/goods");
+  //   return res.data;
+  // };
 
-  const getData = async () => {
-    const res = await axios.get("http://localhost:3001/goods");
-    return res.data;
-  };
+  // const { data, isLoading, isError } = useQuery("goods", getData);
 
-  const { data, isLoading, isError } = useQuery("goods", getData);
-
-  const myProd = data.find((good) => +good.id === id);
+  const myProd = Goods && Goods.find((good) => +good.id === id);
 
   console.log(myProd);
 
@@ -41,28 +39,26 @@ const Product = () => {
       setquantity(quantity--);
     }
   };
-  const similarProds = data.filter((good) => good.type === myProd.type);
+  const similarProds = Goods && Goods.filter((good) => good.type === myProd && myProd.type);
 
-  if (isLoading) return <div>Loading...</div>;
-  if (isError) return <div>Error fetching data</div>;
   return (
     <section className="sm:w-fit mx-auto">
       <div className="container w-11/12 mx-auto flex flex-col justify-between">
         <p className="mb-5 text-sm">
           Main
           <span className="opacity-80"> / All categories /</span>
-          <span className="prod_type opacity-80">{myProd.type}</span>
+          <span className="prod_type opacity-80">{myProd && myProd.type}</span>
           <span className="opacity-80 title"></span>
         </p>
         <div className="flex flex-col md:flex-row mb-16">
           <div className="left_img_box flex w-full md:w-6/12 h-fit mb-5 md:mb-0 relative md:sticky top-[12px]">
             <div className="product_imgs flex flex-col gap-3 w-2/12 lg:h-[70vh] md:h-[100vh] overflow-y-scroll">
-              {myProd.media.map((img) => (
+              {myProd && myProd.media.map((img) => (
                 <img src={img} alt="" />
               ))}
             </div>
             <div className="selected_img w-8/12">
-              <img src={myProd.media[0]} alt="" />
+              <img src={myProd && myProd.media[0]} alt="" />
             </div>
           </div>
           <div className="right w-full md:w-6/12">
@@ -78,12 +74,12 @@ const Product = () => {
                 <img src={like_icon} alt="" />
               </div>
             </div>
-            <h2 className="prod_name text-2xl">{myProd.title}</h2>
+            <h2 className="prod_name text-2xl">{myProd && myProd.title}</h2>
             <div className="md:flex my-3 flex-col ">
               <div className="flex flex-col md:flex-row gap-4">
                 <span className="modal_price text-xl text-[#7000FF] font-semibold">
                   {/* {myProd.price * quantity} руб/ед */}
-                  {myProd.price -
+                  {myProd && myProd.price -
                     Math.floor((myProd.price * myProd.salePercentage) / 100) *
                     quantity}{" "}
                   руб/ед
@@ -135,7 +131,7 @@ const Product = () => {
               <p>Цена:</p>
               <div className="flex gap-4">
                 <span className="price text-xl font-semibold">
-                  {myProd.price -
+                  {myProd && myProd.price -
                     Math.floor((myProd.price * myProd.salePercentage) / 100) *
                     quantity}{" "}
                   руб/ед
@@ -148,7 +144,7 @@ const Product = () => {
             <div className="muttaham_btn py-[12px] my-8 px-3 flex items-center bg-[#f2f4f7] rounded-xl justify-between">
               <div className="flex items-center gap-2">
                 <span className="monthly_price bg-[#FF0] h-fit font-semibold px-2 py-1 rounded-lg">
-                  {Math.floor((myProd.price * 12) / 100)} руб/мес
+                  {Math.floor((myProd && myProd.price * 12) / 100)} руб/мес
                 </span>
                 <p>в рассрочку</p>
               </div>
@@ -193,7 +189,7 @@ const Product = () => {
             </div>
           </div>
         </div>
-        <SimilarProds similarProds={similarProds} />
+        <SimilarProds similarProds={similarProds && similarProds} />
       </div>
     </section>
   );

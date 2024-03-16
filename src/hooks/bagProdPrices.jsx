@@ -13,7 +13,7 @@ const BagProdPrices = () => {
     if (isLoading) return <div>Loading...</div>;
     if (isError) return <div>Error fetching data</div>;
 
-    const res = data.filter((prod) => +good.id === prod.prod_id);
+    const res = data.filter((prod) => good.id === prod.prod_id);
 
     const Price = good.price * res[0].num;
 
@@ -24,7 +24,7 @@ const BagProdPrices = () => {
     if (isLoading) return <div>Loading...</div>;
     if (isError) return <div>Error fetching data</div>;
 
-    const res = data.filter((prod) => +good.id === prod.prod_id);
+    const res = data.filter((prod) => good.id === prod.prod_id);
     const realPrice =
       (good.price - Math.floor((good.price * good.salePercentage) / 100)) *
       res[0].num;

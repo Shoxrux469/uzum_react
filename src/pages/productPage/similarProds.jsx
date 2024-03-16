@@ -24,7 +24,7 @@ const SimilarProds = ({ similarProds }) => {
         <div>
           <h2 className="text-2xl font-semibold">Похожие товары</h2>
           <div className="similar_products flex mt-4 overflow-x-scroll w-full gap-8">
-            {similarProds.map((good) => (
+            {similarProds && similarProds.map((good) => (
               <ProductCard key={good.id} good={good} />
             ))}
           </div>
