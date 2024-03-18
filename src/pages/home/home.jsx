@@ -1,4 +1,4 @@
-import SwiperFade from "../../components/swiper";
+import SwiperFade from "../../components/common/swiper";
 import arrow_right from "../../assets/arrow_right.svg";
 import axios from "axios";
 import { useQuery } from "react-query";
@@ -8,7 +8,7 @@ import technoSlide from "../../assets/techno_slide.svg";
 import clothesSlide from "../../assets/clothes_slide.svg";
 import kitchenSlide from "../../assets/kitcher_slide.svg";
 import "../../index.scss";
-import ProductCard from "../../components/ProductCard";
+import ProductCard from "../../components/common/ProductCard";
 const Home = () => {
   const { data, isLoading, isError } = useQuery("goods", async () => {
     const res = await axios.get("http://localhost:3001/goods");

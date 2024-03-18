@@ -50,6 +50,23 @@
 .error_message {
   @apply w-fit px-3 py-4 bg-red-600 flex items-center gap-2 rounded-lg text-[#fff] font-medium shadow-[0px_0px_10px_#00000040] fixed z-50 left-1/2;
 }
+.pop_up_modal {
+  @apply rounded-xl h-fit w-7/12 bg-white fixed left-1/2 top-0 z-50;
+  .modal_content {
+    @apply h-fit w-fit flex items-center rounded-xl py-4 px-6;
+    img {
+      @apply w-28 h-28 mr-4;
+    }
+    div {
+      h2 {
+        @apply text-2xl font-semibold w-full mt-4;
+      }
+    }
+    span {
+      @apply absolute bottom-3 right-4 text-xl font-semibold text-[#7000ff];
+    }
+  }
+}
 
 .header_bottom {
   li {

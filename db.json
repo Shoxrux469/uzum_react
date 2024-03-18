@@ -1,16 +1,5 @@
 {
-  "bag": [
-    {
-      "id": "3ba1",
-      "prod_id": "4",
-      "num": 5
-    },
-    {
-      "id": "4c1e",
-      "prod_id": "16",
-      "num": 2
-    }
-  ],
+  "bag": [],
   "users": [
     {
       "email": "dsarifkulo021@gmail.com",

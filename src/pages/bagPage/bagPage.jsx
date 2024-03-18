@@ -1,10 +1,8 @@
 import { Link } from "react-router-dom";
 import BagProdsCard from "./bagProdsCard";
-import ProductCard from "../../components/ProductCard";
+import ProductCard from "../../components/common/ProductCard";
 import "./index.scss";
-import { useEffect, useState } from "react";
-// .toString()
-//       .replace(/\B(?=(\d{3})+(?!\d))/g, " ")
+import { useEffect, useMemo, useState } from "react";
 import BagGoods from "../../hooks/getGoods";
 import BagAside from "./bagAside";
 
@@ -12,16 +10,14 @@ const BagPage = () => {
   const [time, setTime] = useState("Hello");
   const { Goods, res, bagLoading, goodsLoading, bagError, goodsError } = BagGoods()
 
-  // console.log(res);
-
   useEffect(() => {
     const currentDate = new Date();
-
     const tomorrowDate = new Date();
     tomorrowDate.setDate(currentDate.getDate() + 1);
     setTime(tomorrowDate.toDateString());
   }, []);
-  const popProds = Goods ? Goods.filter((good) => good.type === "PC") : [];
+
+  const popProds = useMemo(() => (Goods ? Goods.filter((good) => good.type === "PC") : []), [Goods]);
 
   if (bagLoading || goodsLoading) return <div>Loading...</div>;
   if (bagError || goodsError) return <div>Error fetching data</div>;

@@ -2,7 +2,7 @@ import MyOrders from "./myOrders";
 import ProfileInfo from "./ProfileInfo";
 import { useState } from "react";
 import "./index.scss";
-import ErrorMessage from "../../components/errorMessage";
+import ErrorMessage from "../../components/common/errorMessage";
 const Profile = () => {
   const [isShown, setIsShown] = useState(true);
   const [status, setStatus] = useState(false);

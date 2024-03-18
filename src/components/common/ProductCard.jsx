@@ -1,20 +1,19 @@
-import like_icon from "../assets/like_icon.svg";
-import star_icon from "../assets/start_icon.svg";
-import purple_like from "../assets/purple_heart.svg";
-import bag_icon from "../assets/product_bag_icon.svg";
+import like_icon from "../../assets/like_icon.svg";
+import star_icon from "../../assets/start_icon.svg";
+import purple_like from "../../assets/purple_heart.svg";
+import bag_icon from "../../assets/product_bag_icon.svg";
 // import ProductStatus from "./ProductStatus";
 import { useMutation } from "react-query";
 import axios from "axios";
-import { useState } from "react";
-import BagGoods from "../hooks/getGoods";
-import PopUpModal from "./popUpModal";
+import { useContext, useState } from "react";
+import BagGoods from "../../hooks/getGoods";
+import PopUpContext from "../../modules/popUpContext";
 // import { Link } from "react-router-dom";
 
 const ProductCard = ({ good }) => {
   const [status, setStatus] = useState(good && good.status);
   const { bagGoods } = BagGoods()
-  const [isVisible, setIsVisible] = useState(false);
-
+  const { setpopUpData } = useContext(PopUpContext);
 
   const { mutate: updateStatus } = useMutation(async (newStatus) =>
     await axios.patch(
@@ -25,7 +24,8 @@ const ProductCard = ({ good }) => {
     )
   );
 
-  const { mutate: addToBag } = useMutation(async (productId) =>
+  const { mutate: addToBag } = useMutation(async (productId) => {
+
     await axios.post(
       "http://localhost:3001/bag",
       {
@@ -33,12 +33,25 @@ const ProductCard = ({ good }) => {
         num: 1
       }
     ).then(res => {
-      setIsVisible(true);
+      if (res.status !== 200 && res.status !== 201) return;
+      setpopUpData(
+        {
+          itemImg: good.media[0],
+          itemTitle: good.title,
+        }
+      );
       setTimeout(() => {
-
-        setIsVisible(false);
-      })
+        setpopUpData(
+          {
+            status: true
+          }
+        )
+      }, 500)
     })
+    setTimeout(() => {
+      setpopUpData({ status: false })
+    }, 3000)
+  }
   );
   const { mutate: patchtoBag } = useMutation(async ({ productId, productNum }) => {
     await axios.patch(
@@ -47,12 +60,24 @@ const ProductCard = ({ good }) => {
         num: productNum += 1
       }
     ).then(res => {
-      setIsVisible(true);
+      if (res.status !== 200 && res.status !== 201) return;
+      setpopUpData(
+        {
+          itemImg: good.media[0],
+          itemTitle: good.title,
+        }
+      );
       setTimeout(() => {
-
-        setIsVisible(false);
-      })
+        setpopUpData(
+          {
+            status: true
+          }
+        )
+      }, 500)
     })
+    setTimeout(() => {
+      setpopUpData({ status: false })
+    }, 3000)
   }
   );
 
@@ -76,7 +101,6 @@ const ProductCard = ({ good }) => {
 
   return (
     <>
-      <PopUpModal status={isVisible} item={good} />
       {/* <Link to={`/product?id=${good.id}`}> */}
       <ul key={good && good.id} className="w-[230px]">
         <li className="w-full relative">

@@ -2,7 +2,7 @@
 import axios from "axios";
 import { useQuery } from "react-query";
 import { Link } from "react-router-dom";
-import ProductCard from "../../components/ProductCard";
+import ProductCard from "../../components/common/ProductCard";
 
 const Favourites = () => {
   const getData = async () => {

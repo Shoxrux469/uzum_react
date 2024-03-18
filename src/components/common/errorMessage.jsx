@@ -1,7 +1,7 @@
 import { AnimatePresence, motion } from "framer-motion";
 import React from "react";
 import { MdError } from "react-icons/md";
-import "../index.scss";
+import "../../index.scss";
 const ErrorMessage = ({ status, innerText }) => {
   return (
     <AnimatePresence>

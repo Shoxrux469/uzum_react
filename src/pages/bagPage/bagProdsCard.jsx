@@ -1,79 +1,62 @@
-import { useMutation } from "react-query";
+import React, { useState, useMemo } from "react";
+import { useDeleteData, useEditData } from "../../modules/https";
 import minus_img from "../../assets/minus_btn.svg";
 import plus_img from "../../assets/plus_btn.svg";
-import axios from "axios";
 import trash_img from "../../assets/trash_img.png";
 import GetGoods from "../../hooks/getGoods";
-import { useState, useMemo, useCallback } from "react";
-import { useDeleteData } from "../../modules/https";
+
 const BagProdsCard = ({ good }) => {
   const { bagGoods } = GetGoods();
   const [showElement, setShowElement] = useState(true);
   const deleteDataMutation = useDeleteData();
+  const editDataMutation = useEditData();
 
-  const res = useMemo(() => bagGoods.find((prod) => good.id === prod.prod_id),
-    [
-      bagGoods,
-      good.id,
-    ]);
+  const res = useMemo(() => bagGoods.find((prod) => good.id === prod.prod_id), [
+    bagGoods,
+    good.id,
+  ]);
 
-  const [Num, setNum] = useState(res.num);
+  const [num, setNum] = useState(res.num);
 
-  const mutation = useMutation(
-    async (newNum) => {
-      const result = await axios.patch(
-        `http://localhost:3001/bag/${res.id}`,
-        {
-          num: newNum,
-        }
-      );
-      setNum(newNum);
-      return result.data;
-    },
-    {
-      onSuccess: () => {
-        // Handle success if necessary
-      },
-      onError: (error) => {
-        // Handle error if necessary
-        console.error(error);
-      },
-    }
-  );
-
-  const handleMinusClick = useCallback(() => {
-    mutation.mutateAsync(res.num - 1);
-  }, [mutation, res.num]);
-
-  const handlePlusClick = useCallback(() => {
-    mutation.mutateAsync(res.num + 1);
-  }, [mutation, res.num]);
-
-
-  const handleDelete = async () => {
-    const result = await deleteDataMutation.mutateAsync(res.id);
-    result.then(res => {
-      if (res.status !== 200 && res.status !== 201) return
-      setShowElement(false)
-      console.log('Delete operation successful:', result);
-    })
+  const handleMinusClick = () => {
+    const newNum = res.num - 1;
+    updateNum(newNum);
   };
 
-  const realPrice = useMemo(
-    () =>
-      (
-        (good.price - Math.floor((good.price * good.salePercentage) / 100)) *
-        Num
-      )
-        .toString()
-        .replace(/\B(?=(\d{3})+(?!\d))/g, " ") + " руб",
-    [good.price, good.salePercentage, Num]
-  );
+  const handlePlusClick = () => {
+    const newNum = res.num + 1;
+    updateNum(newNum);
+  };
+
+  const handleDelete = async () => {
+    try {
+      await deleteDataMutation.mutateAsync(`/bag/${res.id}`);
+      setShowElement(false);
+    } catch (error) {
+      console.error("Error deleting data:", error);
+    }
+  };
+
+  const updateNum = (newNum) => {
+    editDataMutation.mutateAsync({ path: `/bag/${res.id}`, body: { num: newNum } })
+      .then(updatedData => {
+        setNum(updatedData.num);
+      })
+      .catch(error => {
+        console.error("Error updating data:", error);
+      });
+  };
+
+  const realPrice = useMemo(() => {
+    const discountedPrice = good.price - Math.floor((good.price * good.salePercentage) / 100);
+    return (discountedPrice * num).toLocaleString() + " руб";
+  }, [good.price, good.salePercentage, num]);
 
   return (
     <>
       {showElement && (
         <div className="flex items-center justify-between">
+          {/* Product Info */}
           <div className="flex items-center justify-between">
             <input type="checkbox" />
             <img className="max-w-32 h-fit mx-4" src={good.media[0]} alt="" />
@@ -82,43 +65,34 @@ const BagProdsCard = ({ good }) => {
               <p className="xl:text-lg">Продавец: Uzum</p>
             </div>
           </div>
+
+          {/* Quantity Selector */}
           <div className="flex flex-col items-center">
             <div className="flex xl:px-2 xl:gap-2 items-center border border-gray-300">
-              <img
-                className="cursor-pointer"
-                onClick={handleMinusClick}
-                src={minus_img}
-                alt=""
-              />
-              <p>{Num}</p>
-              <img
-                className="cursor-pointer"
-                onClick={handlePlusClick}
-                src={plus_img}
-                alt=""
-              />
+              <img className="cursor-pointer" onClick={handleMinusClick} src={minus_img} alt="" />
+              <p>{num}</p>
+              <img className="cursor-pointer" onClick={handlePlusClick} src={plus_img} alt="" />
             </div>
             <p className="text-gray-600">{realPrice}</p>
           </div>
+
+          {/* Actions */}
           <div className="flex items-center justify-between">
             <div className="flex flex-col items-end">
-              <div onClick={handleDelete} className="flex items-center gap-1">
+              <div onClick={handleDelete} className="flex items-center gap-1 cursor-pointer">
                 <img className="max-w-6 h-fit" src={trash_img} alt="" />
-                <p className="font-semibold cursor-pointer text-gray-500 hover:text-black duration-500 ease-in-out">
+                <p className="font-semibold text-gray-500 hover:text-black duration-500 ease-in-out">
                   Удалить
                 </p>
               </div>
               <h2 className="xl:text-2xl font-semibold">{realPrice}</h2>
               <p className="text-gray-500 line-through">
-                {(good.price * res.num)
-                  .toString()
-                  .replace(/\B(?=(\d{3})+(?!\d))/g, " ") + " руб"}
+                {(good.price * num).toLocaleString() + " руб"}
               </p>
             </div>
           </div>
         </div>
-      )
-      }
+      )}
     </>
   );
 };

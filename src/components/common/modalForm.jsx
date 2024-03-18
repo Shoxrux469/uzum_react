@@ -37,10 +37,10 @@ const ModalForm = ({ isOpen, onClose }) => {
       <LogInModal isOpen={isOpen} onClose={onClose}>
         <div
           class="log_in_modal h-full flex bg-slate-950 bg-opacity-30 fixed z-50 top-0 left-0 right-0"
-          >
+        >
           <div
-          onClick={(e) => e.stopPropagation()}
-           class="log_in_box flex flex-col items-center translate-x-[-50%] translate-y-[-50%] ease-in-out duration-700 bg-slate-50 px-8 py-12 absolute top-1/2 rounded-lg left-1/2">
+            onClick={(e) => e.stopPropagation()}
+            class="log_in_box flex flex-col items-center translate-x-[-50%] translate-y-[-50%] ease-in-out duration-700 bg-slate-50 px-8 py-12 absolute top-1/2 rounded-lg left-1/2">
             <h2 class="modal_title text-4xl mb-8 font-semibold">
               Войти в аккаунт
             </h2>

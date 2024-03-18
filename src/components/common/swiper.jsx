@@ -1,10 +1,10 @@
-import slide_1 from "../assets/slide_1.jpg";
-import slide_2 from "../assets/slide_2.jpg";
-import slide_3 from "../assets/slide_3.jpg";
-import slide_4 from "../assets/slide_4.jpg";
-import slide_5 from "../assets/slide_5.jpg";
-import slide_6 from "../assets/slide_6.jpg";
-import slide_7 from "../assets/slide_7.jpg";
+import slide_1 from "../../assets/slide_1.jpg";
+import slide_2 from "../../assets/slide_2.jpg";
+import slide_3 from "../../assets/slide_3.jpg";
+import slide_4 from "../../assets/slide_4.jpg";
+import slide_5 from "../../assets/slide_5.jpg";
+import slide_6 from "../../assets/slide_6.jpg";
+import slide_7 from "../../assets/slide_7.jpg";
 import "../index.scss";
 import { Swiper, SwiperSlide } from "swiper/react";
 import { Autoplay, Navigation, Pagination } from "swiper/modules";
@@ -18,7 +18,7 @@ const SwiperFade = () => {
     <div>
       <Swiper
         modules={[Autoplay, Navigation, Pagination]}
-        navigation={{clickable: true}}
+        navigation={{ clickable: true }}
         pagination={{ clickable: true }}
         autoplay={{
           delay: 5000,

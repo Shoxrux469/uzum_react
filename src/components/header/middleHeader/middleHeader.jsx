@@ -7,7 +7,7 @@ import { useEffect, useState } from "react";
 import "../index.scss";
 import { user } from "../../../modules/user";
 import { Link } from "react-router-dom";
-import ModalForm from "../../modalForm";
+import ModalForm from "../../common/modalForm";
 import SearchComponent from "./searchInput";
 import GetGoods from "../../../hooks/getGoods";
 const MiddleHeader = () => {
@@ -179,7 +179,7 @@ const MiddleHeader = () => {
               </span>
             </Link>
           </p>
-          {isShown && (
+          {isShown && res.length >= 1 && (
             <div className="bag_main_modal absolute flex flex-col bottom-0 rounded left-[-207%]">
               <div className="bag_modal absolute z-40 flex w-[420px] bg-white flex-col">
                 {res && res.map((item) => (
