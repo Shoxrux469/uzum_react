@@ -25,18 +25,18 @@ const Footer = () => {
     <footer className="mt-20">
       <div className="footer my-24 flex justify-between flex-col lg:flex-row items-center lg:items-start mx-auto w-11/12">
         {renderFooterItem("О нас", [
-          { label: "Пункты выдачи", url: "#" },
-          { label: "Вакансии", url: "#" }
+          { label: "Пункты выдачи", url: "https://t.me/Mamadsaidov26" },
+          { label: "Вакансии", url: "https://t.me/Mamadsaidov26" }
         ])}
         <div className="line border-[1px] lg:hidden my-4 border-gray-200 w-full"></div>
         {renderFooterItem("Пользователям", [
-          { label: "Связаться с нами", url: "#" },
-          { label: "Вопрос - Ответ", url: "#" }
+          { label: "Связаться с нами", url: "https://t.me/Mamadsaidov26" },
+          { label: "Вопрос - Ответ", url: "https://t.me/Mamadsaidov26" }
         ])}
         <div className="line border-[1px] my-4 lg:hidden border-gray-200 w-full"></div>
         {renderFooterItem("Для предпринимателей", [
-          { label: "Продавайте на Uzuma", url: "#" },
-          { label: "Вход для продавцов", url: "#" }
+          { label: "Продавайте на Uzuma", url: "https://t.me/Mamadsaidov26" },
+          { label: "Вход для продавцов", url: "https://t.me/Mamadsaidov26" }
         ])}
         <ul className="flex flex-col gap-8 mb-4">
           <li className="flex flex-col items-center lg:items-start gap-4">
@@ -59,10 +59,10 @@ const Footer = () => {
           <li className="flex flex-col lg:items-start items-center gap-4">
             <p className="font-semibold">Uzum в соцсетях</p>
             <nav className="flex gap-3 w-28 lg:w-auto flex-wrap">
-              <a href><img className="w-12 lg:w-auto" src={insta} alt="" /></a>
-              <a href><img className="w-12 lg:w-auto" src={telegram} alt="" /></a>
-              <a href><img className="w-12 lg:w-auto" src={youtube} alt="" /></a>
-              <a href><img className="w-12 lg:w-auto" src={facebook} alt="" /></a>
+              <a href="https://t.me/Mamadsaidov26"><img className="w-12 lg:w-auto" src={insta} alt="" /></a>
+              <a href="https://t.me/Mamadsaidov26"><img className="w-12 lg:w-auto" src={telegram} alt="" /></a>
+              <a href="https://t.me/Mamadsaidov26"><img className="w-12 lg:w-auto" src={youtube} alt="" /></a>
+              <a href="https://t.me/Mamadsaidov26"><img className="w-12 lg:w-auto" src={facebook} alt="" /></a>
             </nav>
           </li>
         </ul>
