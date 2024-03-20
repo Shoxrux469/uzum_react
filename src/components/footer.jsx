@@ -44,12 +44,12 @@ const Footer = () => {
               Скачать приложение
             </p>
             <div className="flex gap-3">
-              <a className="flex items-center gap-1" href="#">
+              <a className="flex items-center gap-1" href>
                 {" "}
                 <img src={apple} alt="" />
                 <span>AppStore</span>
               </a>
-              <a className="flex items-center gap-1" href="#">
+              <a className="flex items-center gap-1" href>
                 {" "}
                 <img src={googlePlay} alt="" />
                 <span>Google Play</span>
@@ -59,10 +59,10 @@ const Footer = () => {
           <li className="flex flex-col lg:items-start items-center gap-4">
             <p className="font-semibold">Uzum в соцсетях</p>
             <nav className="flex gap-3 w-28 lg:w-auto flex-wrap">
-              <a href="#"><img className="w-12 lg:w-auto" src={insta} alt="" /></a>
-              <a href="#"><img className="w-12 lg:w-auto" src={telegram} alt="" /></a>
-              <a href="#"><img className="w-12 lg:w-auto" src={youtube} alt="" /></a>
-              <a href="#"><img className="w-12 lg:w-auto" src={facebook} alt="" /></a>
+              <a href><img className="w-12 lg:w-auto" src={insta} alt="" /></a>
+              <a href><img className="w-12 lg:w-auto" src={telegram} alt="" /></a>
+              <a href><img className="w-12 lg:w-auto" src={youtube} alt="" /></a>
+              <a href><img className="w-12 lg:w-auto" src={facebook} alt="" /></a>
             </nav>
           </li>
         </ul>
