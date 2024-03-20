@@ -9,23 +9,32 @@ import exclamation from "../../assets/exclamation.svg";
 import { useState } from "react";
 import "./index.scss";
 import SimilarProds from "./similarProds";
-import GetGoods from "../../hooks/getGoods";
+import { addToBagMutation, patchtoBagMutation } from "../../hooks/addToBag";
+import GetGoods from "../../hooks/getGoods"
 const Product = () => {
   const location = useLocation();
   const searchParams = new URLSearchParams(location.search);
   const id = JSON.parse(searchParams.get("id"));
-  const { Goods } = GetGoods()
-
-  // const getData = async () => {
-  //   const res = await axios.get("http://localhost:3001/goods");
-  //   return res.data;
-  // };
-
-  // const { data, isLoading, isError } = useQuery("goods", getData);
-
+  const { Goods, bagGoods } = GetGoods()
+  const { addToBag } = addToBagMutation();
+  const { patchtoBag } = patchtoBagMutation();
   const myProd = Goods && Goods.find((good) => +good.id === id);
 
   console.log(myProd);
+
+  const handleBag = () => {
+    const isProdExist = bagGoods.find(prod => +prod.prod_id === +myProd.id)
+    // console.log(bagGoods);
+    // console.log(myProd.id);
+    if (isProdExist === undefined) {
+      console.log(myProd.id);
+      addToBag(myProd && { productId: myProd.id, media: myProd.media[0], title: myProd.title });
+    } else {
+      console.log("Product Num:", isProdExist);
+      isProdExist && patchtoBag(myProd && { productId: isProdExist.id, productNum: isProdExist.num, media: myProd.media[0], title: myProd.title })
+
+    }
+  };
 
   let [quantity, setquantity] = useState(1);
 
@@ -151,7 +160,7 @@ const Product = () => {
               <img className="w-[30px]" src={arrow_right} alt="" />
             </div>
             <div className="hidden md:flex gap-2 mb-5">
-              <button className="add_to_bag bg-[#7000FF] text-white flex items-center justify-center py-[14px] font-semibold text-lg w-1/2 rounded-xl">
+              <button onClick={handleBag} className="add_to_bag bg-[#7000FF] text-white flex items-center justify-center py-[14px] font-semibold text-lg w-1/2 rounded-xl">
                 Добавить в корзину
               </button>
               <button className="buy_product  text-[#7000FF] border border-[#7000FF] flex items-center justify-center py-[14px] font-semibold text-lg w-1/2 rounded-xl">

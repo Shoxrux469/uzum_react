@@ -1,11 +1,13 @@
 import { AnimatePresence, motion } from "framer-motion";
 import React, { useContext } from "react";
-import "../index.scss";
-import PopUpContext from "../../modules/popUpContext";
+import "../../index.scss";
+import PopUpContext from "../../modules/context/popUpContext";
 import { IoMdClose } from "react-icons/io";
+import { Link } from "react-router-dom";
 const PopUpModal = () => {
     const { popUpData } = useContext(PopUpContext);
     const { itemImg, itemTitle, status } = popUpData;
+
 
     return (
         <AnimatePresence>
@@ -24,7 +26,7 @@ const PopUpModal = () => {
                             <h2>Товар добавлен в корзину</h2>
                             <p>{itemTitle}</p>
                         </div>
-                        <span>Перейти в корзину</span>
+                        <Link to="/bagPage">Перейти в корзину</Link>
                     </div>
                 </motion.div>
             )}

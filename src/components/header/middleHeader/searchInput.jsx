@@ -1,6 +1,6 @@
 import React, { useContext } from "react";
 import searcher_icon from "../../../assets/searcher_icon.svg";
-import searchContext from "../../../modules/searchContext";
+import searchContext from "../../../modules/context/searchContext";
 import { useNavigate } from "react-router-dom";
 import SearchHint from "./searchHint";
 import SearchPage from "../../../pages/searchPage/searchPage";

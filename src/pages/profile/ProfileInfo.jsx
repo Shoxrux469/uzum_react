@@ -1,4 +1,4 @@
-import { set, useForm } from "react-hook-form";
+import { useForm } from "react-hook-form";
 import { user } from "../../modules/user";
 import "./index.scss";
 import axios from "axios";
@@ -10,7 +10,7 @@ const getUser = async () => {
 };
 
 const ProfileInfo = ({ status, handleMessage }) => {
-	const [IsMale, setIsMale] = useState("");
+	const [IsMale, setIsMale] = useState(user.gender || "");
 	const errorStyle = {
 		border: "2px solid red",
 	};

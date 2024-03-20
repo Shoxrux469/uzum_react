@@ -1,7 +1,6 @@
 import React, { useMemo } from "react";
 
 const GetProd = () => {
-    const city = "Самарканд"; // You can replace this with actual city state if needed
 
     const deliveryOptions = useMemo(
         () => [
@@ -29,7 +28,7 @@ const GetProd = () => {
             <div className="flex flex-col gap-2">
                 <p>Город доставки</p>
                 <button className="border rounded-lg flex justify-between items-center w-full lg:w-1/2 py-2 px-4">
-                    <p className="text-sm">{city}</p>
+                    <p className="text-sm">Самарканд</p>
                     <img src="/public/arrow_down.svg" alt="" />
                 </button>
             </div>

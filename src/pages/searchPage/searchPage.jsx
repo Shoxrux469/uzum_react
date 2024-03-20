@@ -1,6 +1,6 @@
 import { useContext } from "react"
 import Aside from "./aside"
-import searchContext from "../../modules/searchContext"
+import searchContext from "../../modules/context/searchContext"
 import BagGoods from "../../hooks/getGoods"
 import ProductCard from "../../components/common/ProductCard"
 import { useLocation } from "react-router-dom"

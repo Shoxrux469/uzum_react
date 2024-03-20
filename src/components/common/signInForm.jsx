@@ -30,7 +30,7 @@ const SignInForm = ({ closeSignIn, handleMessage }) => {
           mutation.mutateAsync(data);
           localStorage.setItem("user", JSON.stringify(data));
           window.location.reload();
-          console.log(data);
+          // console.log(data);
         }
       });
   };

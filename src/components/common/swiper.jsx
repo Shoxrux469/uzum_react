@@ -5,7 +5,7 @@ import slide_4 from "../../assets/slide_4.jpg";
 import slide_5 from "../../assets/slide_5.jpg";
 import slide_6 from "../../assets/slide_6.jpg";
 import slide_7 from "../../assets/slide_7.jpg";
-import "../index.scss";
+import "../../index.scss";
 import { Swiper, SwiperSlide } from "swiper/react";
 import { Autoplay, Navigation, Pagination } from "swiper/modules";
 import "swiper/swiper-bundle.css";

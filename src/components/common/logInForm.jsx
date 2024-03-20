@@ -16,11 +16,11 @@ const LogInForm = ({ closeLogIn, handleMessage }) => {
     const res = await axios
       .get("http://localhost:3001/users?phone=" + data.phone)
       .then((res) => {
-        console.log(res);
+        // console.log(res);
         if (res.data.length === 0) {
           handleMessage(true, "This acc does not exist");
         } else {
-          console.log(res.data[0].password);
+          // console.log(res.data[0].password);
           if (res.data[0].password === data.password) {
             window.location.reload();
             localStorage.setItem("user", JSON.stringify(res.data[0]));
@@ -35,7 +35,7 @@ const LogInForm = ({ closeLogIn, handleMessage }) => {
     setTimeout(() => {
       handleMessage(false);
     }, 3000);
-    console.log(data);
+    // console.log(data);
     return res;
   };
 

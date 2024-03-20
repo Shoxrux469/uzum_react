@@ -7,6 +7,7 @@ import GetProd from "./orderProcess/getProd"
 import Payment from "./orderProcess/payment"
 import arrow_bottom from "../../assets/arrow_bottom.svg"
 import { useState } from "react"
+
 const OrderPage = () => {
     const { res } = GetGoods()
     const [toggleCard, settoggleCard] = useState(false);
@@ -14,6 +15,7 @@ const OrderPage = () => {
     const handleToggle = () => {
         settoggleCard(!toggleCard)
     }
+
     return (
         <section>
             <FakeHeader />
@@ -25,9 +27,12 @@ const OrderPage = () => {
                         <GetProd />
                         <PersonalInfo />
                         <Payment />
-                        <div className="border rounded-lg px-6 py-3">
-                            <div onClick={(handleToggle)} className="switcher flex items-center justify-between">
-                                <h1 className="text-2xl w-1/2 pb-4">Товары в заказе</h1>
+                        <div
+                            className="border rounded-lg px-6 py-3">
+                            <div
+                                onClick={(handleToggle)}
+                                className="switcher flex items-center justify-between">
+                                <div className="text-2xl w-1/2 pb-4">Товары в заказе</div>
                                 <img className={`arrow_bottom w-7 transform ${toggleCard ? "rotate-180" : ""
                                     }  transition-transform duration-300`} src={arrow_bottom} alt="" />
                             </div>

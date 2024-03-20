@@ -1,5 +1,5 @@
 import { useContext, useEffect } from "react"
-import searchContext from "../../../modules/searchContext"
+import searchContext from "../../../modules/context/searchContext"
 import { Link } from "react-router-dom"
 import GetGoods from "../../../hooks/getGoods"
 

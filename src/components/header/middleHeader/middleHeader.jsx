@@ -14,7 +14,7 @@ const MiddleHeader = () => {
   const [isShown, setIsShown] = useState(false);
   const [isUser, setIsUser] = useState(false);
   const [isOpened, setIsOpened] = useState(false);
-  const { res, bagGoods } = GetGoods()
+  const { res } = GetGoods()
   useEffect(() => {
     if (user.length === 0) {
       setIsUser(false);
@@ -26,7 +26,6 @@ const MiddleHeader = () => {
   const openModal = () => {
     setIsOpened(true);
   };
-  // console.log(res);
 
   return (
     <div className="header my-4 mb-[10px] flex justify-between w-11/12 mx-auto">

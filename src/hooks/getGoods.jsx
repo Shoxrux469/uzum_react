@@ -1,6 +1,6 @@
 import axios from "axios";
 import { useQuery } from "react-query";
-import searchContext from "../modules/searchContext";
+import searchContext from "../modules/context/searchContext";
 import { useContext, useMemo } from "react";
 
 const GetGoods = () => {

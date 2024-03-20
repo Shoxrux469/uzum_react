@@ -12,12 +12,29 @@
 }
 
 .expanded {
-  max-height: 100%; /* Adjust as needed */
+  max-height: 100%;
+  overflow: auto;
   opacity: 1;
-  transition: 0.4s ease-in-out; /* Transition effect for smooth expansion */
+  transition: 0.5s ease-in-out; /* Transition effect for smooth expansion */
 }
 .collapsed {
   max-height: 0px;
+  overflow: hidden;
   opacity: 0;
-  transition: 0.4s ease-in-out;
+  transition: 0.5s ease-in-out;
+}
+
+.bag_prods::-webkit-scrollbar {
+  display: none;
+}
+
+.bag_prods::-webkit-scrollbar-thumb {
+  border-radius: 10px;
+  background-color: #7000ff;
+}
+
+.bag_prods::-webkit-scrollbar-track {
+  -webkit-box-shadow: inset 0 0 6px #7000ff;
+  border-radius: 10px;
+  background-color: #f4f5f5;
 }
