@@ -17,6 +17,7 @@ const Layout = ({ children, includeHeader = true }) => {
     setSearchText(text);
   }
 
+
   return (
     <>
       <PopUpContext.Provider value={{ popUpData, setpopUpData }}>

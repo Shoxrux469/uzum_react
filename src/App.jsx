@@ -8,7 +8,7 @@ import { Route, Routes } from "react-router-dom";
 import BagPage from "./pages/bagPage/bagPage";
 import SearchPage from "./pages/searchPage/searchPage";
 import OrderPage from "./pages/orderPage/orderPage";
-function App() {  
+function App() {
   return (
     <Routes>
       <Route path="/" element={<Layout><Home /></Layout>} />
